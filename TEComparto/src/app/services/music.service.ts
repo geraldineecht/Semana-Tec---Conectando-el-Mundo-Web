@@ -14,18 +14,18 @@ export class MusicService {
   apiURL = 'https://shazam.p.rapidapi.com/search';
 
   /* GET heroes whose name contains search term */
-  searchHeroes(term: string): Observable<any> {
-  term = term.trim();
+//   searchHeroes(term: string): Observable<any> {
+//   term = term.trim();
 
-  // Add safe, URL encoded search parameter if there is a search term
-  const options = term ?
-   { params: new HttpParams().set('term', term) } : {};
+//   // Add safe, URL encoded search parameter if there is a search term
+//   const options = term ?
+//    { params: new HttpParams().set('term', term) } : {};
 
-  return this.http.get<any>(this.apiURL, options)
-    .pipe(
-      catchError()
-    );
-}
+//   return this.http.get<any>(this.apiURL, options)
+//     .pipe(
+//       catchError()
+//     );
+// }
 /*
   //Http Options
   httpOptions = {
