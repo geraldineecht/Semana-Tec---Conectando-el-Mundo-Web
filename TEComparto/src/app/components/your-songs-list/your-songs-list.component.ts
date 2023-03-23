@@ -26,7 +26,7 @@ export class YourSongsListComponent implements OnInit {
     //songsIDs = this.get_all_songIDs();
     for(let i = 0; i < this.songsIDs.length; i++)
     {
-      const headers = { 'X-RapidAPI-Key': 'b3bf7bfd40msh1f4622d3466104fp1e8794jsn67d55fb486be', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+      const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
     //   this.http.get<any>(this.apiurl_search, { headers }).subscribe(dataSearch => {
     //       this.totalAngularPackages = dataSearch.total;
     //       console.log(dataSearch);
