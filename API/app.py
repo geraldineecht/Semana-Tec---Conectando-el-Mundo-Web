@@ -42,13 +42,13 @@ def create_user():
     
     username = request.json.get("username")
     if username is None:
-        return {"success" : False, "message" : "must specify a username"}
+        return {"data": {"success" : False, "message" : "must specify a username"}}
     
     # TODO: Check if username is already used
     
     email = request.json.get("email")
     if email is None:
-        return {"success" : False, "message" : "must specify an email"}
+        return {"data": {"success" : False, "message" : "must specify an email"}}
     
     # TODO: Check if email is already used
     # TODO: Check if it's a valid email
@@ -85,7 +85,7 @@ def create_user():
     collection = db['Users']
     collection.insert_one(newUser)
 
-    return { "success" : True, "message" : "user was created"}
+    return {"data": { "success" : True, "message" : "user was created"}}
 
 
 @app.route('/add_movie', methods=["POST"])
@@ -100,18 +100,18 @@ def add_movie():
     
     userId = request.json.get("userId")
     if userId is None:
-        return {"success" : False, "message" : "must provide a user"}
+        return {"data": {"success" : False, "message" : "must provide a user"}}
     
     # TODO: Check if it's a valid user id and they exist
     # TODO: check if everything exists, if not create it
 
     listType = request.json.get("listType")
     if listType is None or listType != "movies":
-        return {"success" : False, "message" : "must specify which list to update"}
+        return {"data": {"success" : False, "message" : "must specify which list to update"}}
 
     movieId = request.json.get("movieId")
     if movieId is None:
-        return {"success" : False, "message" : "must specify a movie to add"}
+        return {"data": {"success" : False, "message" : "must specify a movie to add"}}
     
     collection = db['Users']
     mongoFilter = {'_id': ObjectId(userId), "lists.type": "movies"}
@@ -120,7 +120,7 @@ def add_movie():
             {"lists.$.idsCollection": {"id": movieId, "dateAdded": datetime.now()}}
         })
 
-    return { "success" : True, "message" : "movie was added to user list"}
+    return {"data": { "success" : True, "message" : "movie was added to user list"}}
 
 
 @app.route('/add_song', methods=["POST"])
@@ -135,18 +135,18 @@ def add_song():
     
     userId = request.json.get("userId")
     if userId is None:
-        return {"success" : False, "message" : "must provide a user"}
+        return {"data": {"success" : False, "message" : "must provide a user"}}
     
     # TODO: Check if it's a valid user id and they exist
     # TODO: check if everything exists, if not create it
 
     listType = request.json.get("listType")
     if listType is None or listType != "songs":
-        return {"success" : False, "message" : "must specify which list to update"}
+        return {"data": {"success" : False, "message" : "must specify which list to update"}}
 
     songId = request.json.get("songId")
     if songId is None:
-        return {"success" : False, "message" : "must specify a song to add"}
+        return {"data": {"success" : False, "message" : "must specify a song to add"}}
     
     collection = db['Users']
     mongoFilter = {'_id': ObjectId(userId), "lists.type": "songs"}
@@ -155,7 +155,7 @@ def add_song():
             {"lists.$.idsCollection": {"id": songId, "dateAdded": datetime.now()}}
         })
 
-    return { "success" : True, "message" : "song was added to user list"}
+    return {"data": { "success" : True, "message" : "song was added to user list"}}
 
 
 @app.route('/add_book', methods=["POST"])
@@ -170,22 +170,22 @@ def add_book():
     
     userId = request.json.get("userId")
     if userId is None:
-        return {"success" : False, "message" : "must provide a user"}
+        return {"data": {"success" : False, "message" : "must provide a user"}}
     
     # TODO: Check if it's a valid user id and they exist
     # TODO: check if everything exists, if not create it
 
     listType = request.json.get("listType")
     if listType is None or listType != "books":
-        return {"success" : False, "message" : "must specify which list to update"}
+        return {"data": {"success" : False, "message" : "must specify which list to update"}}
 
     bookName = request.json.get("bookName")
     if bookName is None:
-        return {"success" : False, "message" : "must specify the book name to add"}
+        return {"data": {"success" : False, "message" : "must specify the book name to add"}}
     
     bookAuthor = request.json.get("bookAuthor")
     if bookAuthor is None:
-        return {"success" : False, "message" : "must specify the author of the book to add"}
+        return {"data": {"success" : False, "message" : "must specify the author of the book to add"}}
     
     collection = db['Users']
     mongoFilter = {'_id': ObjectId(userId), "lists.type": "books"}
@@ -194,7 +194,7 @@ def add_book():
             {"lists.$.idsCollection": {"bookName": bookName, "bookAuthor": bookAuthor, "dateAdded": datetime.now()}}
         })
 
-    return { "success" : True, "message" : "book was added to user list"}
+    return {"data": { "success" : True, "message" : "book was added to user list"}}
 
 
 if __name__ == '__main__':
