@@ -334,18 +334,65 @@ def get_friend_books_recommendations():
 
     return {"friendRecommendations": friendRecommendations}
 
+# Ej. http://localhost:3000/movies/641b97ad0df3d227f1daeb5e
 @app.route('/movies/<id>', methods = ['GET'])
 def get_all_movies(id):
     try: 
-        #query = db.Users.find_one({"_id": ObjectId(id)}, {'lists':1, '_id':0}) 
-        query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "movies"}, {'lists.idsCollection':1, '_id':0})
-        response = json_util.dumps(query)
-        return Response(response, mimetype='application/json')
+        query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "movies"}, {'lists': {'$elemMatch': {"type":"movies"}}, '_id':0})
+        movies = query['lists'][0]['idsCollection']
+        moviesIds = []
+
+        for movie in movies:
+            response = {
+                "movieTitle": movie["movieTitle"],
+                "movieYear": movie["movieYear"],
+                "dateAdded": movie["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            moviesIds.append(response)
+        return {"moviesIds": moviesIds}
 
     except Exception as e:
         print(e)
         return not_found()
 
+@app.route('/songs/<id>', methods = ['GET'])
+def get_all_songs(id):
+    try: 
+        query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "songs"}, {'lists': {'$elemMatch': {"type":"songs"}}, '_id':0})
+        songs = query['lists'][0]['idsCollection']
+        songsIds = []
+
+        for song in songs:
+            response = {
+                "songId": song["id"],
+                "dateAdded": song["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            songsIds.append(response)
+        return {"songsIds": songsIds}
+
+    except Exception as e:
+        print(e)
+        return not_found()
+
+@app.route('/books/<id>', methods = ['GET'])
+def get_all_books(id):
+    try: 
+        query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "books"}, {'lists': {'$elemMatch': {"type":"books"}}, '_id':0})
+        books = query['lists'][0]['idsCollection']
+        booksIds = []
+
+        for book in books:
+            response = {
+                "bookName": book["bookName"],
+                "bookAuthor": book["bookAuthor"],
+                "dateAdded": book["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            booksIds.append(response)
+        return {"booksIds": booksIds}
+
+    except Exception as e:
+        print(e)
+        return not_found()
 
 @app.errorhandler(404)
 def not_found(error=None):
