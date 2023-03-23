@@ -35,12 +35,12 @@ export class YourSongsListComponent implements OnInit {
     this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsIDs[i].id, { headers }).subscribe(data => {
       this.totalAngularPackages = data.total;
       console.log(data);
+      this.coverart = data.images.coverart;
       this.title = data.title;
       this.artist = data.subtitle;
       this.album = data.sections[0].metadata[0].text;
       this.genre = data.genres.primary;
-      //this.coverart = data.images.coverart;
-      this.songs.push([this.title, this.artist, this.album, this.genre, this.songsIDs[i].dateAdded]);
+      this.songs.push([this.coverart, this.title, this.artist, this.album, this.genre, this.songsIDs[i].dateAdded]);
       })
 
     }

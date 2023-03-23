@@ -7,6 +7,9 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
+                        Cover
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Title
                     </th>
                     <th scope="col" class="px-6 py-3">
@@ -29,7 +32,7 @@
             <tbody>
                 <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" *ngFor="let row of songs">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{row[0]}}
+                        <img [src]=row[0] alt=“image” style="height: 100px; width: 100px;">
                     </th>
                     <td class="px-6 py-4">
                         {{row[1]}}
@@ -42,6 +45,9 @@
                     </td>
                     <td class="px-6 py-4">
                         {{row[4]}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{row[5]}}
                     </td>
                     <th scope="col" class="px-6 py-3">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
