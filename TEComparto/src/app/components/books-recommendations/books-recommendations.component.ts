@@ -12,8 +12,9 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
   totalAngularPackages: any;
 
   constructor(private http: HttpClient) { }
-  song = "";
-  songKey = "";
+  book = "";
+  bookTitle = "";
+  bookAuthor = "";
 
   @Input('items')
   items: any[] = [];
@@ -137,16 +138,18 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  searchSong(){
-    console.log(this.song);
-    const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
-      this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).subscribe(data => {
-          this.totalAngularPackages = data.total;
-          console.log(this.song);
-          this.songKey = data.tracks.hits[0].track.key;
-          console.log(this.songKey);
-     })
+  searchBook() {
+    const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+    this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.book, { headers }).subscribe(data => {
+        this.totalAngularPackages = data.total;
+        this.bookTitle = data.results[0].title;
+        this.bookAuthor = data.results[0].authors[0];
+        console.log(this.bookTitle);
+        console.log(this.bookAuthor);
+   })
+   this.book = "";
   }
+
 
 }
 
