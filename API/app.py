@@ -14,16 +14,14 @@ def home():
 @app.route('/users', methods = ['GET'])
 def get_users():
     try: 
-        collection_name = db['Users']
-        #myquery = { "address": { "$regex": "^S" } }
-
-        #mydoc = collection_name.find(myquery)
-        query = collection_name.find_one({"username":"alex_dennis"}) 
+        query = db.Users.find({"username":'alex_dennis'}) 
         for x in query:
             print (x)
+        return "oli"
 
     except Exception as e:
         print(e)
+        return "oli2"
 
 if __name__ == '__main__':
     app.run(debug = True, port = 3000)
