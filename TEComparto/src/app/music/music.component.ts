@@ -11,6 +11,7 @@ import { HttpClient } from '@angular/common/http';
 export class MusicComponent implements OnInit {
   totalAngularPackages: any;
 
+  
   constructor(private http: HttpClient) { }
 
   apiurl_search = "https://shazam.p.rapidapi.com/search?term=22";
@@ -41,8 +42,29 @@ export class MusicComponent implements OnInit {
     this.coverart = data.images.coverart;
     })
   }
-    
-  
+
+  get_all_songs() {
+    // Formar el json request
+
+    // Hacer el get a nuestra api
+    //result = get_api_interna()
+
+    // Hacer lookup de los ids en la API de canciones
+  }
+
+  get_api_interna() {
+    // llamar al end point de flask
+
+    return { data: {
+      movieIds: [
+      {id: "71865413", dateAdded: "2023-22-03"},
+      {id: "431969534", dateAdded: "2023-21-03"},
+      {id: "558467799", dateAdded: "2023-20-03"},
+      {id: "347046149", dateAdded: "2023-19-03"},
+      {id: "94560245", dateAdded: "2023-18-03"},
+        ]
+    } } 
+  }
   
 
 }
