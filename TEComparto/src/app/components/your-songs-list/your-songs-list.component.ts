@@ -9,11 +9,12 @@ import { HttpClient } from '@angular/common/http';
 export class YourSongsListComponent implements OnInit {
   totalAngularPackages: any;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private http2: HttpClient) { }
 
   //apiurl_search = "https://shazam.p.rapidapi.com/search?term=22";
   //apiurl_details = "https://shazam.p.rapidapi.com/songs/get-details?key=71865413";
-  songsIDs:Array<any> = this.get_all_songIDs();
+  songsJSON:Array<any> = [];
+  songsIDs:Array<any> = [];
   songs:Array<Array<string>> = [];
   title = "";
   artist = "";
@@ -22,17 +23,49 @@ export class YourSongsListComponent implements OnInit {
   coverart = "";
   
   ngOnInit(): void {
+    this.songsIDs = this.get_all_songIDs();
+    console.log(this.songsIDs);
+    this.get_song_details();
+    
+  }
 
-    //songsIDs = this.get_all_songIDs();
+  get_all_songIDs() {
+    // Formar el json request
+
+    // Hacer el get a nuestra api
+    //result = get_api_interna();
+
+    this.http2.get<any>('http://localhost:5000/songs/641b97ad0df3d227f1daeb5e').subscribe(data => {
+      this.totalAngularPackages = data.total;
+      console.log(data.songsIds);
+      this.songsJSON = data.songsIds;
+      })
+      // this.songsJSON = [
+      //   {songId: "71865413", dateAdded: "2023-22-03"},
+      //   {songId: "431969534", dateAdded: "2023-21-03"},
+      //   {songId: "558467799", dateAdded: "2023-20-03"},
+      //   {songId: "347046149", dateAdded: "2023-19-03"},
+      //   {songId: "94560245", dateAdded: "2023-18-03"},
+      //     ];
+
+      return this.songsJSON;
+
+
+    //return result.data.movieIds;
+  }
+
+  get_song_details(){
+
     for(let i = 0; i < this.songsIDs.length; i++)
     {
+      console.log(i);
       const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
     //   this.http.get<any>(this.apiurl_search, { headers }).subscribe(dataSearch => {
     //       this.totalAngularPackages = dataSearch.total;
     //       console.log(dataSearch);
     //       this.songKey = dataSearch.tracks.hits[0].track.key;
     //  })
-    this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsIDs[i].id, { headers }).subscribe(data => {
+    this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsIDs[i].songId.toString(), { headers }).subscribe(data => {
       this.totalAngularPackages = data.total;
       console.log(data);
       this.coverart = data.images.coverart;
@@ -44,36 +77,7 @@ export class YourSongsListComponent implements OnInit {
       })
 
     }
-  }
 
-  get_all_songIDs() {
-    // Formar el json request
-
-    // Hacer el get a nuestra api
-    //result = get_api_interna();
-
-    //return result.data.movieIds;
-    return [
-      {id: "71865413", dateAdded: "2023-22-03"},
-      {id: "431969534", dateAdded: "2023-21-03"},
-      {id: "558467799", dateAdded: "2023-20-03"},
-      {id: "347046149", dateAdded: "2023-19-03"},
-      {id: "94560245", dateAdded: "2023-18-03"},
-        ]
-  }
-
-  get_api_interna() {
-    // llamar al end point de flask
-
-    return { data: {
-      movieIds: [
-      {id: "71865413", dateAdded: "2023-22-03"},
-      {id: "431969534", dateAdded: "2023-21-03"},
-      {id: "558467799", dateAdded: "2023-20-03"},
-      {id: "347046149", dateAdded: "2023-19-03"},
-      {id: "94560245", dateAdded: "2023-18-03"},
-        ]
-    } } 
   }
   
 
