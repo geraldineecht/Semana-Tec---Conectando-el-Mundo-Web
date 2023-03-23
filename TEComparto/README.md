@@ -1,7 +1,11 @@
-# Dependencias 
+# Dependencias backend 
 
 - `pymongo`
 - `flask`
+- `certifi`
+
+# Dependencias frontend
+
 - `angular`
 
 
