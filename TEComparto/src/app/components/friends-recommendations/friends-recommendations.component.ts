@@ -56,11 +56,11 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   setUpSlider() {
-    if (window.innerWidth < 500)
+    if (window.innerWidth < 900)
       this.elementsToShow = this.slideConfig.breakpoints.sm;
-    else if (window.innerWidth < 900)
-      this.elementsToShow = this.slideConfig.breakpoints.md;
     else if (window.innerWidth < 1300)
+      this.elementsToShow = this.slideConfig.breakpoints.md;
+    else if (window.innerWidth < 1700)
       this.elementsToShow = this.slideConfig.breakpoints.lg;
     else
       this.elementsToShow = this.slideConfig.breakpoints.xl;
@@ -75,7 +75,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
     this.sliderContainerWidth = container.clientWidth;
     this.slideWidth = this.sliderContainerWidth / this.elementsToShow;
-    this.sliderWidth = this.slideWidth * this.items.length;
+    this.sliderWidth = this.slideWidth * this.items.length + 2000;
 
     // console.log(this.sliderContainerWidth)
     // console.log(this.sliderWidth)
