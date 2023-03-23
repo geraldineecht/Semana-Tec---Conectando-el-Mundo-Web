@@ -7,11 +7,13 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
+import { MusicComponent } from './music/music.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DashboardpComponent
+    DashboardpComponent,
+    MusicComponent
   ],
   imports: [
     BrowserModule,
