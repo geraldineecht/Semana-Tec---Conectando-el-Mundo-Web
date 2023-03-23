@@ -7,15 +7,13 @@ import { AppComponent } from './app.component';
 
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule } from '@angular/forms';
-import { BooksComponent } from './books/books.component';
-import { MoviesComponent } from './movies/movies.component';
+import { MusicComponent } from './music/music.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     DashboardpComponent,
-    BooksComponent,
-    MoviesComponent
+    MusicComponent
   ],
   imports: [
     BrowserModule,
