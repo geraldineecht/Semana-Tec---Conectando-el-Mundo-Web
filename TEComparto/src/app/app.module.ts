@@ -11,6 +11,8 @@ import { FormsModule } from '@angular/forms';
 import { MusicComponent } from './music/music.component';
 import { BooksComponent } from './books/books.component';
 import { MoviesComponent } from './movies/movies.component';
+import { YourMoviesListComponent } from './components/your-movies-list/your-movies-list.component';
+import { YourBooksListComponent } from './components/your-books-list/your-books-list.component';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { MoviesComponent } from './movies/movies.component';
     YourSongsListComponent,
     MusicComponent,
     BooksComponent,
-    MoviesComponent
+    MoviesComponent,
+    YourMoviesListComponent,
+    YourBooksListComponent
   ],
   imports: [
     BrowserModule,
