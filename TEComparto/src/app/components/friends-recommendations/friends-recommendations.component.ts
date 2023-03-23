@@ -1,12 +1,20 @@
 import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SlideConfig } from '../models/slide-config/slide-config.model';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-friends-recommendations',
   templateUrl: './friends-recommendations.component.html',
   styleUrls: ['./friends-recommendations.component.css']
 })
+
 export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
+
+  totalAngularPackages: any;
+
+  constructor(private http: HttpClient) { }
+  song = "";
+  songKey = "";
 
   @Input('items')
   items: any[] = [];
@@ -39,8 +47,6 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   onScreenResize() {
     this.setUpSlider()
   }
-
-  constructor() { }
 
   ngOnInit(): void {
 
@@ -130,6 +136,17 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
       this.next()
       this.autoPlay()
     }, 1000);
+  }
+
+  searchSong(){
+    console.log(this.song);
+    const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+      this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).subscribe(data => {
+          this.totalAngularPackages = data.total;
+          console.log(this.song);
+          this.songKey = data.tracks.hits[0].track.key;
+          console.log(this.songKey);
+     })
   }
 
 }
