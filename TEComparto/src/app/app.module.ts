@@ -3,7 +3,6 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { AddSongComponent } from './components/add-song/add-song.component';
 import { YourSongsListComponent } from './components/your-songs-list/your-songs-list.component';
 import { FriendsRecommendationsComponent } from './components/friends-recommendations/friends-recommendations.component';
 import { HomeComponent } from './components/home/home.component';
@@ -22,11 +21,11 @@ import { LoginComponent } from './components/login/login.component';
 import { LoginContainerComponent } from './components/login-container/login-container.component';
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { BooksRecommendationsComponent } from './components/books-recommendations/books-recommendations.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    AddSongComponent,
     YourSongsListComponent,
     MusicComponent,
     BooksComponent,
@@ -34,10 +33,12 @@ import { ReactiveFormsModule } from '@angular/forms';
     YourMoviesListComponent,
     YourBooksListComponent,
     FriendsRecommendationsComponent,
+    BooksRecommendationsComponent,
     HomeComponent,
     LoginComponent,
     LoginContainerComponent,
     LoginFormComponent,
+    BooksRecommendationsComponent,
   ],
   imports: [
     BrowserModule,
