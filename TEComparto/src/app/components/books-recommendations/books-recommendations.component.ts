@@ -147,6 +147,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
         console.log(this.bookTitle);
         console.log(this.bookAuthor);
    })
+   this.book = "";
   }
 
 

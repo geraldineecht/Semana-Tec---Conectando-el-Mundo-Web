@@ -147,6 +147,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
           this.songKey = data.tracks.hits[0].track.key;
           console.log(this.songKey);
      })
+     this.song = "";
   }
 
 }
