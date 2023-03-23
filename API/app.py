@@ -203,6 +203,7 @@ def add_book():
 
 @app.route('/get_friend_movies_recommendations', methods=["GET"])
 def get_friend_movies_recommendations():
+    """Gets all recommendations from a user's friends"""
 
     if request.method == "POST":
         return {
@@ -224,28 +225,114 @@ def get_friend_movies_recommendations():
     friendIds = query["followedUsers"]
     
     # Get recomendations of friends
+    friendRecommendations = []
     for id in friendIds:
-        movieObject = collection.find_one({'_id': id}, 
+        query = collection.find_one({'_id': id}, 
             {"lists":
                 {"$elemMatch": {"type": "movies"}}
             })
-        print(movieObject["lists"])
+        
+        movies = query["lists"][0]["idsCollection"]
+        friendUsername = collection.find_one({'_id': id}, {"username": 1})["username"]
+        for movie in movies:
+            recommendation = {
+                "movieTitle": movie["movieTitle"],
+                "movieYear": movie["movieYear"],
+                "friendName": friendUsername,
+                "dateAdded": movie["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            friendRecommendations.append(recommendation)
 
-    recommendations = {
-        "wow": "omg"
-    }
-
-    return recommendations
+    return {"friendRecommendations": friendRecommendations}
 
 
 @app.route('/get_friend_songs_recommendations', methods=["GET"])
 def get_friend_songs_recommendations():
-    pass
+    """Gets all recommendations from a user's friends"""
+
+    if request.method == "POST":
+        return {
+            "success": False,
+            "message": "Unsupported method"
+        }
+    
+    userId = request.args.get("userId")
+    if userId is None:
+        return {"data": {"success" : False, "message" : "must provide a user"}}
+    
+    userObjectId = ObjectId(userId)
+    # TODO: Check if user exists in the database
+
+    # Get friend IDs
+    collection = db['Users']
+    userFilter = {'_id': userObjectId}
+    query = collection.find_one(userFilter, {"followedUsers": 1})
+    friendIds = query["followedUsers"]
+    
+    # Get recomendations of friends
+    friendRecommendations = []
+    for id in friendIds:
+        query = collection.find_one({'_id': id}, 
+            {"lists":
+                {"$elemMatch": {"type": "songs"}}
+            })
+        
+        songs = query["lists"][0]["idsCollection"]
+        friendUsername = collection.find_one({'_id': id}, {"username": 1})["username"]
+        for song in songs:
+            recommendation = {
+                "songId": song["id"],
+                "friendName": friendUsername,
+                "dateAdded": song["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            friendRecommendations.append(recommendation)
+
+    return {"friendRecommendations": friendRecommendations}
 
 
 @app.route('/get_friend_books_recommendations', methods=["GET"])
 def get_friend_books_recommendations():
-    pass
+    """Gets all recommendations from a user's friends"""
+
+    if request.method == "POST":
+        return {
+            "success": False,
+            "message": "Unsupported method"
+        }
+    
+    userId = request.args.get("userId")
+    if userId is None:
+        return {"data": {"success" : False, "message" : "must provide a user"}}
+    
+    userObjectId = ObjectId(userId)
+    # TODO: Check if user exists in the database
+
+    # Get friend IDs
+    collection = db['Users']
+    userFilter = {'_id': userObjectId}
+    query = collection.find_one(userFilter, {"followedUsers": 1})
+    friendIds = query["followedUsers"]
+    
+    # Get recomendations of friends
+    friendRecommendations = []
+    for id in friendIds:
+        query = collection.find_one({'_id': id}, 
+            {"lists":
+                {"$elemMatch": {"type": "books"}}
+            })
+        
+        books = query["lists"][0]["idsCollection"]
+        friendUsername = collection.find_one({'_id': id}, {"username": 1})["username"]
+        for book in books:
+            recommendation = {
+                "bookTitle": book["bookTitle"],
+                "bookAuthor": book["bookAuthor"],
+                "friendName": friendUsername,
+                "dateAdded": book["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")
+            }
+            friendRecommendations.append(recommendation)
+
+    return {"friendRecommendations": friendRecommendations}
 
 
 if __name__ == '__main__':
