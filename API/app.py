@@ -109,15 +109,19 @@ def add_movie():
     if listType is None or listType != "movies":
         return {"data": {"success" : False, "message" : "must specify which list to update"}}
 
-    movieId = request.json.get("movieId")
-    if movieId is None:
+    movieTitle = request.json.get("movieTitle")
+    if movieTitle is None:
         return {"data": {"success" : False, "message" : "must specify a movie to add"}}
+    
+    movieYear = request.json.get("movieYear")
+    if movieYear is None:
+        return {"data": {"success" : False, "message" : "must specify the year of the movie to add"}}
     
     collection = db['Users']
     mongoFilter = {'_id': ObjectId(userId), "lists.type": "movies"}
     collection.update_one(mongoFilter, 
         {"$push":
-            {"lists.$.idsCollection": {"id": movieId, "dateAdded": datetime.now()}}
+            {"lists.$.idsCollection": {"movieTitle": movieTitle, "movieYear": movieYear, "dateAdded": datetime.now()}}
         })
 
     return {"data": { "success" : True, "message" : "movie was added to user list"}}
@@ -195,6 +199,21 @@ def add_book():
         })
 
     return {"data": { "success" : True, "message" : "book was added to user list"}}
+
+
+@app.route('/get_friend_movies_recommendations')
+def get_friend_movies_recommendations():
+    pass
+
+
+@app.route('/get_friend_songs_recommendations')
+def get_friend_songs_recommendations():
+    pass
+
+
+@app.route('/get_friend_books_recommendations')
+def get_friend_books_recommendations():
+    pass
 
 
 if __name__ == '__main__':
