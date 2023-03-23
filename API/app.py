@@ -1,7 +1,7 @@
 # API - Les Power Rangers Divinas
 
-from flask import Flask, request
-from bson.objectid import ObjectId
+from flask import Flask, request, jsonify, Response
+from bson import json_util, ObjectId
 from datetime import datetime
 import database as dbase
 
@@ -214,6 +214,28 @@ def get_friend_songs_recommendations():
 @app.route('/get_friend_books_recommendations')
 def get_friend_books_recommendations():
     pass
+
+@app.route('/movies/<id>', methods = ['GET'])
+def get_all_movies(id):
+    try: 
+        #query = db.Users.find_one({"_id": ObjectId(id)}, {'lists':1, '_id':0}) 
+        query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "movies"}, {'lists.idsCollection':1, '_id':0})
+        response = json_util.dumps(query)
+        return Response(response, mimetype='application/json')
+
+    except Exception as e:
+        print(e)
+        return not_found()
+
+
+@app.errorhandler(404)
+def not_found(error=None):
+    response = jsonify({
+        'message': 'Resource Not Found: '+ request.url,
+        'status': 404
+    })
+    response.status_code = 404
+    return response
 
 
 if __name__ == '__main__':
