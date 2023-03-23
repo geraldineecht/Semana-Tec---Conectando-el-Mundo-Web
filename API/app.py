@@ -30,6 +30,64 @@ def get_users():
         print(e)
 
 
+@app.route("/create_user", methods=["POST"])
+def create_user():
+    """Creates a new user in the database with empty parameters"""
+
+    if request.method == "GET":
+        return {
+            "success": False,
+            "message": "Unsupported method"
+        }
+    
+    username = request.json.get("username")
+    if username is None:
+        return {"success" : False, "message" : "must specify a username"}
+    
+    # TODO: Check if username is already used
+    
+    email = request.json.get("email")
+    if email is None:
+        return {"success" : False, "message" : "must specify an email"}
+    
+    # TODO: Check if email is already used
+    # TODO: Check if it's a valid email
+
+    newUser = {
+        "username": username,
+        "email": email,
+        "lists": [
+            {
+                "listName": "",
+                "type": "movies",
+                "description": "",
+                "dateOfCreation": datetime.now(),
+                "idsCollection": []
+            },
+            {
+                "listName": "",
+                "type": "songs",
+                "description": "",
+                "dateOfCreation": datetime.now(),
+                "idsCollection": []
+            },
+            {
+                "listName": "",
+                "type": "books",
+                "description": "",
+                "dateOfCreation": datetime.now(),
+                "idsCollection": []
+            }
+        ],
+        "followedUsers": []
+    }
+    
+    collection = db['Users']
+    collection.insert_one(newUser)
+
+    return { "success" : True, "message" : "user was created"}
+
+
 @app.route('/add_movie', methods=["POST"])
 def add_movie():
     """Adds a movie to a user's list"""
