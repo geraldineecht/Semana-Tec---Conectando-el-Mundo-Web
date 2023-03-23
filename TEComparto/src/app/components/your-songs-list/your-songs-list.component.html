@@ -7,19 +7,22 @@
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
                     <th scope="col" class="px-6 py-3">
-                        id
+                        Cover
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Title
                     </th>
                     <th scope="col" class="px-6 py-3">
+                        Artist
+                    </th>
+                    <th scope="col" class="px-6 py-3">
                         Album
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Date Added
+                        Genre
                     </th>
                     <th scope="col" class="px-6 py-3">
-                        Duration
+                        Date Added
                     </th>
                     <th scope="col" class="px-6 py-3">
                         Actions
@@ -27,21 +30,24 @@
                 </tr>
             </thead>
             <tbody>
-                <tr *ngFor="let arr of array" class="bg-white border-b dark:bg-gray-900 dark:border-gray-700">
+                <tr class="bg-white border-b dark:bg-gray-900 dark:border-gray-700" *ngFor="let row of songs">
                     <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                        {{arr.id}}
+                        <img [src]=row[0] alt=“image” style="height: 100px; width: 100px;">
                     </th>
                     <td class="px-6 py-4">
-                        {{arr.title}}
+                        {{row[1]}}
                     </td>
                     <td class="px-6 py-4">
-                        {{arr.album}}
+                        {{row[2]}}
                     </td>
                     <td class="px-6 py-4">
-                        {{arr.dateAdded}}
+                        {{row[3]}}
                     </td>
                     <td class="px-6 py-4">
-                        {{arr.duration}}
+                        {{row[4]}}
+                    </td>
+                    <td class="px-6 py-4">
+                        {{row[5]}}
                     </td>
                     <th scope="col" class="px-6 py-3">
                         <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>

@@ -1,0 +1,8 @@
+<p>movies works!</p>
+<input type="text" placeholder="Search book..." [(ngModel)]="movie">
+<button (click)="searchMovie()" class="btn btn-success">Click Me</button>
+<hr>
+<p>{{ movieid }}</p>
+<p>{{ movieTitle }}</p>
+<p>{{ movieYear }}</p>
+<img [src]="movieCover" alt="{{movieTitle}}">

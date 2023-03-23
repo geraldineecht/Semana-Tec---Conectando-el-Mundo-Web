@@ -11,17 +11,32 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 import {MatTabsModule} from '@angular/material/tabs';
 
+import { HttpClientModule } from '@angular/common/http';
+import { FormsModule } from '@angular/forms';
+import { MusicComponent } from './music/music.component';
+import { BooksComponent } from './books/books.component';
+import { MoviesComponent } from './movies/movies.component';
+import { YourMoviesListComponent } from './components/your-movies-list/your-movies-list.component';
+import { YourBooksListComponent } from './components/your-books-list/your-books-list.component';
+
 @NgModule({
   declarations: [
     AppComponent,
     AddSongComponent,
     YourSongsListComponent,
+    MusicComponent,
+    BooksComponent,
+    MoviesComponent,
+    YourMoviesListComponent,
+    YourBooksListComponent,
     FriendsRecommendationsComponent,
     HomeComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
+    FormsModule,
+    HttpClientModule,
     BrowserAnimationsModule,
     MatTabsModule
   ],
