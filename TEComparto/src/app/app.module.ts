@@ -6,13 +6,15 @@ import { AppComponent } from './app.component';
 import { AddSongComponent } from './components/add-song/add-song.component';
 import { YourSongsListComponent } from './components/your-songs-list/your-songs-list.component';
 import { FriendsRecommendationsComponent } from './components/friends-recommendations/friends-recommendations.component';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     AddSongComponent,
     YourSongsListComponent,
-    FriendsRecommendationsComponent
+    FriendsRecommendationsComponent,
+    HomeComponent,
   ],
   imports: [
     BrowserModule,
