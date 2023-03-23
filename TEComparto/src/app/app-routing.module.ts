@@ -9,9 +9,10 @@ import { YourMoviesListComponent } from './components/your-movies-list/your-movi
 import { YourBooksListComponent } from './components/your-books-list/your-books-list.component';
 import { FriendsRecommendationsComponent } from './components/friends-recommendations/friends-recommendations.component';
 import { HomeComponent } from './components/home/home.component';
+import { LoginComponent } from './components/login/login.component';
 
 const routes: Routes = [
-  { path: '', component: YourSongsListComponent},
+  { path: '', component: LoginComponent},
   { path: 'movies', component: MoviesComponent},
   { path: 'addSong', component: AddSongComponent},
   { path: 'moviesList', component: YourMoviesListComponent},

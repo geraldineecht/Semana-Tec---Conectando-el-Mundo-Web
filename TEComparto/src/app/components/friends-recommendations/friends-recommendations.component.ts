@@ -139,7 +139,6 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   searchSong(){
-    console.log(this.song);
     const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
       this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).subscribe(data => {
           this.totalAngularPackages = data.total;
@@ -148,5 +147,6 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
           console.log(this.songKey);
      })
   }
+
 
 }

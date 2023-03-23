@@ -18,6 +18,10 @@ import { BooksComponent } from './books/books.component';
 import { MoviesComponent } from './movies/movies.component';
 import { YourMoviesListComponent } from './components/your-movies-list/your-movies-list.component';
 import { YourBooksListComponent } from './components/your-books-list/your-books-list.component';
+import { LoginComponent } from './components/login/login.component';
+import { LoginContainerComponent } from './components/login-container/login-container.component';
+import { LoginFormComponent } from './components/login-form/login-form.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -31,6 +35,9 @@ import { YourBooksListComponent } from './components/your-books-list/your-books-
     YourBooksListComponent,
     FriendsRecommendationsComponent,
     HomeComponent,
+    LoginComponent,
+    LoginContainerComponent,
+    LoginFormComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +45,9 @@ import { YourBooksListComponent } from './components/your-books-list/your-books-
     FormsModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    MatTabsModule
+    MatTabsModule,
+    ReactiveFormsModule
+
   ],
   providers: [],
   bootstrap: [AppComponent]
