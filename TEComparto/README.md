@@ -7,6 +7,7 @@
 # Dependencias frontend
 
 - `angular`
+- `npm install @angular-devkit/build-angular:dev-server`
 
 
 # TEComparto
