@@ -1,0 +1,9 @@
+<p>books works!</p>
+<input type="text" placeholder="Search book..." [(ngModel)]="book">
+<button (click)="searchBook()" class="btn btn-success">Click Me</button>
+<hr>
+<p>{{ bookTitle }}</p>
+<p>{{ bookAuthor }}</p>
+<p>{{ bookCategory }}</p>
+<p>{{ bookSummary }}</p>
+<img [src]="bookCover" alt="{{bookTitle}}">
