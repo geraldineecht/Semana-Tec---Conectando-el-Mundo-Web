@@ -201,17 +201,49 @@ def add_book():
     return {"data": { "success" : True, "message" : "book was added to user list"}}
 
 
-@app.route('/get_friend_movies_recommendations')
+@app.route('/get_friend_movies_recommendations', methods=["GET"])
 def get_friend_movies_recommendations():
-    pass
+
+    if request.method == "POST":
+        return {
+            "success": False,
+            "message": "Unsupported method"
+        }
+    
+    userId = request.args.get("userId")
+    if userId is None:
+        return {"data": {"success" : False, "message" : "must provide a user"}}
+    
+    userObjectId = ObjectId(userId)
+    # TODO: Check if user exists in the database
+
+    # Get friend IDs
+    collection = db['Users']
+    userFilter = {'_id': userObjectId}
+    query = collection.find_one(userFilter, {"followedUsers": 1})
+    friendIds = query["followedUsers"]
+    
+    # Get recomendations of friends
+    for id in friendIds:
+        movieObject = collection.find_one({'_id': id}, 
+            {"lists":
+                {"$elemMatch": {"type": "movies"}}
+            })
+        print(movieObject["lists"])
+
+    recommendations = {
+        "wow": "omg"
+    }
+
+    return recommendations
 
 
-@app.route('/get_friend_songs_recommendations')
+@app.route('/get_friend_songs_recommendations', methods=["GET"])
 def get_friend_songs_recommendations():
     pass
 
 
-@app.route('/get_friend_books_recommendations')
+@app.route('/get_friend_books_recommendations', methods=["GET"])
 def get_friend_books_recommendations():
     pass
 
