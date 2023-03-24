@@ -66,14 +66,15 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
       for (let i = 0; i < this.songsRecs.length; i++)
       {
-        const headers = { 'X-RapidAPI-Key': SONGS_API.apiKey, 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
-        this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsRecs[i].songId.toString(), { headers }).subscribe(data => {
-        this.totalAngularPackages = data.total;
-        this.coverart = data.images.coverart;
-        this.title = data.title;
-        this.songs.push([this.coverart, this.title, this.songsRecs[i].friendName]);
-      })
-
+        setTimeout(() => {
+          const headers = { 'X-RapidAPI-Key': SONGS_API.apiKey, 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+          this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsRecs[i].songId.toString(), { headers }).subscribe(data => {
+            this.totalAngularPackages = data.total;
+            this.coverart = data.images.coverart;
+            this.title = data.title;
+            this.songs.push([this.coverart, this.title, this.songsRecs[i].friendName]);
+          })
+        }, 1000);
       }
     })();
   }

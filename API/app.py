@@ -290,6 +290,7 @@ def get_friend_songs_recommendations():
             })
         
         songs = query["lists"][0]["idsCollection"]
+        print(type(query["lists"]))
         friendUsername = collection.find_one({'_id': id}, {"username": 1})["username"]
         for song in songs:
             recommendation = {

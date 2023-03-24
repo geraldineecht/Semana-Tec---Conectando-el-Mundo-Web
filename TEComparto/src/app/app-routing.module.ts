@@ -15,7 +15,6 @@ const routes: Routes = [
   { path: 'movies', component: MoviesComponent},
   { path: 'moviesList', component: YourMoviesListComponent},
   { path: 'booksList', component: YourBooksListComponent},
-  { path: '', component: HomeComponent},
   { path: 'friends-recommendations', component: FriendsRecommendationsComponent},
   { path: 'books-recommendations', component: BooksRecommendationsComponent},
   { path: 'home', component: HomeComponent},
