@@ -327,7 +327,7 @@ def get_friend_books_recommendations():
         friendUsername = collection.find_one({'_id': id}, {"username": 1})["username"]
         for book in books:
             recommendation = {
-                "bookTitle": book["bookTitle"],
+                "bookTitle": book["bookName"],
                 "bookAuthor": book["bookAuthor"],
                 "friendName": friendUsername,
                 "dateAdded": book["dateAdded"].strftime("%m/%d/%Y, %H:%M:%S")

@@ -58,10 +58,10 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.dots)
     (async() => {
       let promise = await this.get_all_recommendations();
       this.songsRecs = promise.friendRecommendations;
+      console.log
 
       for (let i = 0; i < this.songsRecs.length; i++)
       {
@@ -79,7 +79,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
   async get_all_recommendations() : Promise<any>
   {
-    return this.http.get<any>('http://localhost:5000/get_friend_songs_recommendations?userId=' + this.userId).toPromise()
+    return this.http.get<any>('http://localhost:5000/get_friend_songs_recommendations?userId=' + this.userId).pipe(retry(3)).toPromise()
   }
 
   getItems() {
