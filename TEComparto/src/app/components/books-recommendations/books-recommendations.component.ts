@@ -16,7 +16,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
   book = "";
   bookTitle = "";
   bookAuthor = "";
-  userId = "641b97ad0df3d227f1daeb5e";
+  userId = "641c72934016bace838a783b";
 
   @Input('items')
   items: any[] = [];
@@ -152,6 +152,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
       // Publish book to database
       (async() => {
         let postToDbPromise = await this.postBookToDatabase();
+        console.log("deleted book")
       })();
 
       this.book = "";

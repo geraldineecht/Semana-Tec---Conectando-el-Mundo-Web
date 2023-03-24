@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-your-books-list',
@@ -18,7 +18,7 @@ export class YourBooksListComponent implements OnInit {
   bookCategory = "";
   bookSummary = "";
   bookCover = "";
-  userID = "641b97ad0df3d227f1daeb5e"
+  userID = "641c72934016bace838a783b"
 
   ngOnInit(): void {
     (async() => {
@@ -37,7 +37,8 @@ export class YourBooksListComponent implements OnInit {
         this.bookAuthor = data.results[0].authors[0];
         this.bookCategory = data.results[0].categories[0];
         this.bookSummary = data.results[0].summary;
-        this.books.push([this.bookCover, this.bookTitle, this.bookAuthor, this.bookCategory, this.bookSummary, this.booksIDs[i].dateAdded]);
+        this.books.push([this.bookCover, this.bookTitle, this.bookAuthor, this.bookCategory, this.bookSummary, this.booksIDs[i].dateAdded,
+                        JSON.stringify({bookTitle: this.bookTitle, bookAuthor: this.bookAuthor})]);
         })
       }
     })();
@@ -46,5 +47,30 @@ export class YourBooksListComponent implements OnInit {
   async get_all_books() : Promise<any>
   {
     return this.http.get<any>('http://localhost:5000/books/' + this.userID).toPromise()
+  }
+
+  removeBook(bookInfo: string)
+  {
+    let bookInfoObject = JSON.parse(bookInfo)
+    var payload = { 
+      userId: this.userID,
+      bookName: bookInfoObject.bookTitle,
+      bookAuthor: bookInfoObject.bookAuthor
+    }
+    console.log(payload);
+    
+    (async() => {
+      let promise = await this.removeBookFromDatabase(payload);
+    })();
+  }
+
+  async removeBookFromDatabase(payload: object) : Promise<any>
+  {
+    let httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    }
+    return this.http.post<any>('http://localhost:5000/deleteBook', JSON.stringify(payload), httpOptions).toPromise();
   }
 }
