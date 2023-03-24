@@ -47,15 +47,4 @@ export class YourBooksListComponent implements OnInit {
   {
     return this.http.get<any>('http://localhost:5000/books/' + this.userID).toPromise()
   }
-
-  // get_all_books() {
-  //   return [
-  //     {id: "Moby Dick", dateAdded: "2023-22-03"},
-  //     {id: "Hamlet", dateAdded: "2023-21-03"},
-  //     {id: "The Catcher in the Rye", dateAdded: "2023-20-03"},
-  //     {id: "The Invisible Man", dateAdded: "2023-19-03"},
-  //     {id: "The Stranger", dateAdded: "2023-18-03"},
-  //   ]
-  // }
-
 }
