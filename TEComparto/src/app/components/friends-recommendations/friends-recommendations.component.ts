@@ -74,7 +74,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
             this.title = data.title;
             this.songs.push([this.coverart, this.title, this.songsRecs[i].friendName]);
           })
-        }, 1000);
+        }, 1500);
       }
     })();
   }

@@ -55,7 +55,8 @@ export class MoviesRecommendationsComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     for(let i = 0; i < this.moviesIDs.length; i++)
     {
-      const headers = { 'X-RapidAPI-Key': '302e34740bmsh26ad5c3062e5e4ep112a45jsn3d5d0f19afd7', 'X-RapidAPI-Host': 'imdb8.p.rapidapi.com' }
+      const headers = { 'X-RapidAPI-Key': '5fccf856b9msha4325f2c5ade008p12d1d1jsn62e24a07b57e',
+      'X-RapidAPI-Host': 'online-movie-database.p.rapidapi.com' }
       this.http.get<any>('https://imdb8.p.rapidapi.com/title/v2/find?title=' + this.moviesIDs[i].id + '&limit=2&sortArg=moviemeter%2Casc', { headers }).subscribe(data => {
       this.totalAngularPackages = data.total;
       console.log(data);
