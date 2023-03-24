@@ -16,21 +16,31 @@ db = dbase.connectionDB()
 def home():
     return "Les Power Rangers Divinas!\n"
 
-
-@app.route('/users', methods = ['GET'])
-def get_users():
+"""
+http://localhost:3000/user?userName=alex_dennis
+"""
+@app.route('/user', methods = ['GET'])
+def get_id_user():
+    """Get the id of the user name"""
     try: 
-        collection_name = db['Users']
-        #myquery = { "address": { "$regex": "^S" } }
+        userName = request.args.get("userName")
+        if userName is None:
+            return {"data": {"success" : False, "message" : "must provide a User Name"}}
+    
+        query = db.Users.find({"username":userName},{"username":1,"_id":1})
 
-        #mydoc = collection_name.find(myquery)
-        query = collection_name.find_one({"username":"alex_dennis"}) 
-        for x in query:
-            print (x)
-
+        user = []
+        # Get movies
+        for data in query:
+            response = {
+                "id": str(data["_id"]),
+                "username": data["username"]
+            }
+            user.append(response)
+        return {"user": user}
     except Exception as e:
         print(e)
-
+        return not_found()
 
 @app.route("/create_user", methods=["POST"])
 def create_user():
