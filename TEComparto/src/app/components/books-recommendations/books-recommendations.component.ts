@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SlideConfig } from '../models/slide-config/slide-config.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { retry, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-books-recommendations',
@@ -15,6 +16,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
   book = "";
   bookTitle = "";
   bookAuthor = "";
+  userId = "641b97ad0df3d227f1daeb5e";
 
   @Input('items')
   items: any[] = [];
@@ -139,17 +141,47 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   searchBook() {
-    const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
-    this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.book, { headers }).subscribe(data => {
-        this.totalAngularPackages = data.total;
-        this.bookTitle = data.results[0].title;
-        this.bookAuthor = data.results[0].authors[0];
-        console.log(this.bookTitle);
-        console.log(this.bookAuthor);
-   })
-   this.book = "";
+    // Get
+
+    (async() => {
+      let promise = await this.getBookInformation();
+      console.log(promise)
+      this.bookTitle = promise.results[0].title;
+      this.bookAuthor = promise.results[0].authors[0];
+      
+      // Publish book to database
+      (async() => {
+        let postToDbPromise = await this.postBookToDatabase();
+      })();
+
+      this.book = "";
+      this.bookTitle = "";
+      this.bookAuthor = "";
+    })();
   }
 
+  async getBookInformation()
+  {
+    const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+    return this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.book, { headers }).toPromise()
+  }
 
+  async postBookToDatabase()
+  {
+    let httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    }
+
+    var payload = { 
+      userId: this.userId,
+      listType: 'books',
+      bookName: this.bookTitle,
+      bookAuthor: this.bookAuthor
+    }
+    
+    return this.http.post<any>('http://localhost:5000/add_book', JSON.stringify(payload), httpOptions).toPromise();
+  }
 }
 
