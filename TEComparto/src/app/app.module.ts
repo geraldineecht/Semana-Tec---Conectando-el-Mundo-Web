@@ -22,6 +22,7 @@ import { LoginContainerComponent } from './components/login-container/login-cont
 import { LoginFormComponent } from './components/login-form/login-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BooksRecommendationsComponent } from './components/books-recommendations/books-recommendations.component';
+import { MoviesRecommendationsComponent } from './components/movies-recommendations/movies-recommendations.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { BooksRecommendationsComponent } from './components/books-recommendation
     LoginContainerComponent,
     LoginFormComponent,
     BooksRecommendationsComponent,
+    MoviesRecommendationsComponent,
   ],
   imports: [
     BrowserModule,
