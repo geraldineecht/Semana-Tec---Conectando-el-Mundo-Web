@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { environment } from 'src/environments/environment';
+import { environment, BOOKS_API } from 'src/environments/environment';
 
 @Component({
   selector: 'app-your-books-list',
@@ -29,7 +29,7 @@ export class YourBooksListComponent implements OnInit {
 
       for(let i = 0; i < this.booksIDs.length; i++)
       {
-        const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+        const headers = { 'X-RapidAPI-Key': BOOKS_API.apiKey, 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
         this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.booksIDs[i].bookName, { headers }).subscribe(data => {
         this.totalAngularPackages = data.total;
         console.log(data);

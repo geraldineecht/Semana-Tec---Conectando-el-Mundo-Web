@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostL
 import { SlideConfig } from '../models/slide-config/slide-config.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry, catchError } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment, BOOKS_API } from 'src/environments/environment';
 
 @Component({
   selector: 'app-books-recommendations',
@@ -64,7 +64,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
 
         for(let i = 0; i < this.booksRecs.length; i++)
         {
-          const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+          const headers = { 'X-RapidAPI-Key': BOOKS_API.apiKey, 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
           this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.booksRecs[i].bookTitle, { headers }).subscribe(data => {
           this.totalAngularPackages = data.total;
           console.log(data);
@@ -188,7 +188,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
 
   async getBookInformation()
   {
-    const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+    const headers = { 'X-RapidAPI-Key': BOOKS_API.apiKey, 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
     return this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.book, { headers }).toPromise()
   }
 

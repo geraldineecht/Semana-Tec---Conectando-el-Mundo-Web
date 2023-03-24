@@ -8,11 +8,11 @@ export const environment = {
 };
 
 export const SONGS_API = {
-  apiKey: ""
+  apiKey: "9dd5c28516mshc8a3b7c53552092p123aedjsn4567b5bfb1ff"
 };
 
 export const BOOKS_API = {
-  apiKey: ""
+  apiKey: "f31652ae38msh9a6eed1277e8086p159943jsn312a70396978"
 };
 
 export const MOVIES_API = {

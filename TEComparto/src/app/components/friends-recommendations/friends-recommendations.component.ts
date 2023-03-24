@@ -2,7 +2,7 @@ import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostL
 import { SlideConfig } from '../models/slide-config/slide-config.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry, catchError } from 'rxjs/operators';
-import { environment } from 'src/environments/environment';
+import { environment, SONGS_API } from 'src/environments/environment';
 
 @Component({
   selector: 'app-friends-recommendations',
@@ -66,7 +66,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
       for (let i = 0; i < this.songsRecs.length; i++)
       {
-        const headers = { 'X-RapidAPI-Key': '9dd5c28516mshc8a3b7c53552092p123aedjsn4567b5bfb1ff', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+        const headers = { 'X-RapidAPI-Key': SONGS_API.apiKey, 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
         this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsRecs[i].songId.toString(), { headers }).subscribe(data => {
         this.totalAngularPackages = data.total;
         this.coverart = data.images.coverart;
@@ -185,7 +185,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
   async getSongKey() : Promise<any>
   {
-    const headers = { 'X-RapidAPI-Key': '9dd5c28516mshc8a3b7c53552092p123aedjsn4567b5bfb1ff', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+    const headers = { 'X-RapidAPI-Key': SONGS_API.apiKey, 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
     return this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).pipe(retry(1)).toPromise()
   }
 
