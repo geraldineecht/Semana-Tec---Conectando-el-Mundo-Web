@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostL
 import { SlideConfig } from '../models/slide-config/slide-config.model';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { retry, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-friends-recommendations',
@@ -16,7 +17,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   constructor(private http: HttpClient) { }
   song = "";
   songKey = "";
-  userId = "641b97ad0df3d227f1daeb5e"
+  userId = environment.userID;
   songsRecs:Array<any> = [];
   songs:Array<Array<string>> = [];
   title = "";

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-login-form',
@@ -13,8 +14,18 @@ export class LoginFormComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  goToHome(pageName:string){
-    this.router.navigate([`${pageName}`]);
+  login(pageName:string) {
+    (async() => {
+      let promise = await this.saveUserId();
+    })();
+
+    if (environment.userID != "") {
+      this.router.navigate([`${pageName}`]);
+    }
   }
 
+
+  async saveUserId() : Promise<any> {
+    environment.userID = "641b97ad0df3d227f1daeb5e";
+  }
 }
