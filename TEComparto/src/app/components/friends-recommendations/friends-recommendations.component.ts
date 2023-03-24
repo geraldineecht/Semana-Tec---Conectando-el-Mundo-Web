@@ -51,8 +51,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-
-    console.log(this.dots)
+    //console.log(this.dots)
   }
 
   getItems() {
@@ -89,7 +88,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
     // console.log(this.sliderWidth)
     // console.log(this.slideWidth)
 
-    if(this.slideConfig.autoPlay) this.autoPlay()
+    if (this.slideConfig.autoPlay) this.autoPlay()
   }
 
   prev() {
@@ -114,8 +113,8 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   move(slideID: number) {
-    console.log("Slide ID" + slideID)
-    console.log("activeSlideID" + this.activeSlideID)
+    //console.log("Slide ID" + slideID)
+    //console.log("activeSlideID" + this.activeSlideID)
     let difference = slideID - this.activeSlideID;
     if (difference > 0) {
       // Next
