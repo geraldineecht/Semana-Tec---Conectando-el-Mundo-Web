@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SlideConfig } from '../models/slide-config/slide-config.model';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { retry, catchError } from 'rxjs/operators';
 
 @Component({
   selector: 'app-friends-recommendations',
@@ -15,6 +16,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   constructor(private http: HttpClient) { }
   song = "";
   songKey = "";
+  userId = "641b97ad0df3d227f1daeb5e"
 
   @Input('items')
   items: any[] = [];
@@ -139,15 +141,41 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   searchSong(){
-    const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
-      this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).subscribe(data => {
-          this.totalAngularPackages = data.total;
-          console.log(this.song);
-          this.songKey = data.tracks.hits[0].track.key;
-          console.log(this.songKey);
-     })
-     this.song = "";
+    // Get song key from external API
+    (async() => {
+      let promise = await this.getSongKey();
+      //this.totalAngularPackages = promise.total;
+      this.songKey = promise.tracks.hits[0].track.key;
+
+      (async() => {
+        let postToDbPromise = await this.postSongToDatabase();
+      })();
+
+      this.song = "";
+    })();
   }
 
+  async getSongKey() : Promise<any>
+  {
+    const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+    return this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).pipe(retry(1)).toPromise()
+  }
+
+  async postSongToDatabase() : Promise<any>
+  {
+    let httpOptions = {
+        headers: new HttpHeaders({
+        'Content-Type': 'application/json',
+        })
+      }
+
+      var payload = { 
+        userId: this.userId,
+        listType: 'songs',
+        songId: this.songKey
+      }
+      
+      return this.http.post<any>('http://localhost:5000/add_song', JSON.stringify(payload), httpOptions).toPromise();
+  }
 
 }

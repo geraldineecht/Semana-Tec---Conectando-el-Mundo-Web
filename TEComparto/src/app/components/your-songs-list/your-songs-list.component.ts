@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
   selector: 'app-your-songs-list',
@@ -18,8 +18,8 @@ export class YourSongsListComponent implements OnInit {
   album = "";
   genre = "";
   coverart = "";
-  userID = "641c72934016bace838a783b"
-  
+  userID = "641b97ad0df3d227f1daeb5e"
+    
   ngOnInit(): void {
     (async() => {
       let promise = await this.get_all_songIDs();
@@ -27,7 +27,7 @@ export class YourSongsListComponent implements OnInit {
 
       for (let i = 0; i < this.songsIDs.length; i++)
       {
-        const headers = { 'X-RapidAPI-Key': '5bbdd3f1f6mshab3da4d3dd31572p1da8e9jsn5164c0ae80fc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+        const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
         this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsIDs[i].songId.toString(), { headers }).subscribe(data => {
         this.totalAngularPackages = data.total;
         console.log(data);
@@ -36,7 +36,7 @@ export class YourSongsListComponent implements OnInit {
         this.artist = data.subtitle;
         this.album = data.sections[0].metadata[0].text;
         this.genre = data.genres.primary;
-        this.songs.push([this.coverart, this.title, this.artist, this.album, this.genre, this.songsIDs[i].dateAdded]);
+        this.songs.push([this.coverart, this.title, this.artist, this.album, this.genre, this.songsIDs[i].dateAdded, this.songsIDs[i].songId.toString()]);
       })
 
       }
@@ -46,5 +46,30 @@ export class YourSongsListComponent implements OnInit {
   async get_all_songIDs() : Promise<any>
   {
     return this.http.get<any>('http://localhost:5000/songs/' + this.userID).toPromise()
+  }
+
+  
+  removeSong(songKey:string)
+  {
+    var payload = { 
+      userId: this.userID,
+      id: songKey
+    }
+    console.log(payload);
+    
+    (async() => {
+      let promise = await this.removeSongFromDatabase(payload);
+      console.log(promise)
+    })();
+  }
+
+  async removeSongFromDatabase(payload: object) : Promise<any>
+  {
+    let httpOptions = {
+      headers: new HttpHeaders({
+      'Content-Type': 'application/json',
+      })
+    }
+    return this.http.post<any>('http://localhost:5000/deleteSong', JSON.stringify(payload), httpOptions).toPromise();
   }
 }
