@@ -17,6 +17,13 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   song = "";
   songKey = "";
   userId = "641b97ad0df3d227f1daeb5e"
+  songsRecs:Array<any> = [];
+  songs:Array<Array<string>> = [];
+  title = "";
+  artist = "";
+  album = "";
+  genre = "";
+  coverart = "";
 
   @Input('items')
   items: any[] = [];
@@ -52,10 +59,31 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     //console.log(this.dots)
+    (async() => {
+      let promise = await this.get_all_recommendations();
+      this.songsRecs = promise.friendRecommendations;
+
+      for (let i = 0; i < this.songsRecs.length; i++)
+      {
+        const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+        this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsRecs[i].songId.toString(), { headers }).subscribe(data => {
+        this.totalAngularPackages = data.total;
+        this.coverart = data.images.coverart;
+        this.title = data.title;
+        this.songs.push([this.coverart, this.title, this.songsRecs[i].friendName]);
+      })
+
+      }
+    })();
+  }
+
+  async get_all_recommendations() : Promise<any>
+  {
+    return this.http.get<any>('http://localhost:5000/get_friend_songs_recommendations?userId=' + this.userId).toPromise()
   }
 
   getItems() {
-    return this.items;
+    return this.songs;
   }
 
   ngAfterViewInit(): void {
