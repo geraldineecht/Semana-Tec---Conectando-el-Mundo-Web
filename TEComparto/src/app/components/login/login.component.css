@@ -1,0 +1,31 @@
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+  background: #ecf0f3;
+}
+
+h1 {
+  margin: 0;
+  padding: 0;
+}
+
+#bg {  
+  height: 100vh;  
+  background-image: url("../../../assets/img/loginBackground.jpg");  
+  background-repeat:no-repeat;
+  -webkit-background-size:cover;
+  -moz-background-size:cover;
+  -o-background-size:cover;
+  background-size:cover;
+  background-position:center;
+}
+
+.container {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}

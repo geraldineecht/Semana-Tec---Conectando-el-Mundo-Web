@@ -1,22 +1,20 @@
 import { AfterViewInit, Component, ContentChild, ElementRef, EventEmitter, HostListener, Input, OnChanges, OnInit, Output, TemplateRef, ViewChild } from '@angular/core';
 import { SlideConfig } from '../models/slide-config/slide-config.model';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { retry, catchError } from 'rxjs/operators';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
-  selector: 'app-friends-recommendations',
-  templateUrl: './friends-recommendations.component.html',
-  styleUrls: ['./friends-recommendations.component.css']
+  selector: 'app-books-recommendations',
+  templateUrl: './books-recommendations.component.html',
+  styleUrls: ['./books-recommendations.component.css']
 })
-
-export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
+export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
 
   totalAngularPackages: any;
 
   constructor(private http: HttpClient) { }
-  song = "";
-  songKey = "";
-  userId = "641b97ad0df3d227f1daeb5e"
+  book = "";
+  bookTitle = "";
+  bookAuthor = "";
 
   @Input('items')
   items: any[] = [];
@@ -51,7 +49,8 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    //console.log(this.dots)
+
+    console.log(this.dots)
   }
 
   getItems() {
@@ -88,7 +87,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
     // console.log(this.sliderWidth)
     // console.log(this.slideWidth)
 
-    if (this.slideConfig.autoPlay) this.autoPlay()
+    if(this.slideConfig.autoPlay) this.autoPlay()
   }
 
   prev() {
@@ -113,8 +112,8 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
   }
 
   move(slideID: number) {
-    //console.log("Slide ID" + slideID)
-    //console.log("activeSlideID" + this.activeSlideID)
+    console.log("Slide ID" + slideID)
+    console.log("activeSlideID" + this.activeSlideID)
     let difference = slideID - this.activeSlideID;
     if (difference > 0) {
       // Next
@@ -139,42 +138,18 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
     }, 1000);
   }
 
-  searchSong(){
-    // Get song key from external API
-    (async() => {
-      let promise = await this.getSongKey();
-      //this.totalAngularPackages = promise.total;
-      this.songKey = promise.tracks.hits[0].track.key;
-
-      (async() => {
-        let postToDbPromise = await this.postSongToDatabase();
-      })();
-
-      this.song = "";
-    })();
+  searchBook() {
+    const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+    this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.book, { headers }).subscribe(data => {
+        this.totalAngularPackages = data.total;
+        this.bookTitle = data.results[0].title;
+        this.bookAuthor = data.results[0].authors[0];
+        console.log(this.bookTitle);
+        console.log(this.bookAuthor);
+   })
+   this.book = "";
   }
 
-  async getSongKey() : Promise<any>
-  {
-    const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
-    return this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).pipe(retry(1)).toPromise()
-  }
-
-  async postSongToDatabase() : Promise<any>
-  {
-    let httpOptions = {
-        headers: new HttpHeaders({
-        'Content-Type': 'application/json',
-        })
-      }
-
-      var payload = { 
-        userId: this.userId,
-        listType: 'songs',
-        songId: this.songKey
-      }
-      
-      return this.http.post<any>('http://localhost:5000/add_song', JSON.stringify(payload), httpOptions).toPromise();
-  }
 
 }
+

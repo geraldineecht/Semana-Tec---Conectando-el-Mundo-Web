@@ -1,10 +1,13 @@
 # API - Les Power Rangers Divinas
 from flask import Flask, request, jsonify, Response
+from flask_cors import CORS, cross_origin
 from bson import json_util, ObjectId
 from datetime import datetime
 import database as dbase
 
 app = Flask(__name__)
+cors = CORS(app)
+app.config["CORS_HEADERS"] = 'Content-Type'
 db = dbase.connectionDB()
 
 
@@ -335,6 +338,7 @@ def get_friend_books_recommendations():
 
 # Ex. http://localhost:3000/movies/641b97ad0df3d227f1daeb5e
 @app.route('/movies/<id>', methods = ['GET'])
+@cross_origin()
 def get_all_movies(id):
     """Gets all movies from a user"""
     try: 
