@@ -65,7 +65,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
       for (let i = 0; i < this.songsRecs.length; i++)
       {
-        const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+        const headers = { 'X-RapidAPI-Key': '9dd5c28516mshc8a3b7c53552092p123aedjsn4567b5bfb1ff', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
         this.http.get<any>('https://shazam.p.rapidapi.com/songs/get-details?key=' + this.songsRecs[i].songId.toString(), { headers }).subscribe(data => {
         this.totalAngularPackages = data.total;
         this.coverart = data.images.coverart;
@@ -184,7 +184,7 @@ export class FriendsRecommendationsComponent implements OnInit, AfterViewInit {
 
   async getSongKey() : Promise<any>
   {
-    const headers = { 'X-RapidAPI-Key': 'aa1fdedb3cmsh81a9b4306616863p11c019jsna8dbe2fc47dc', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
+    const headers = { 'X-RapidAPI-Key': '9dd5c28516mshc8a3b7c53552092p123aedjsn4567b5bfb1ff', 'X-RapidAPI-Host': 'shazam.p.rapidapi.com' }
     return this.http.get<any>('https://shazam.p.rapidapi.com/search?term=' + this.song, { headers }).pipe(retry(1)).toPromise()
   }
 

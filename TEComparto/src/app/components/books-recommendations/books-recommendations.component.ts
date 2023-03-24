@@ -176,7 +176,7 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
       // Publish book to database
       (async() => {
         let postToDbPromise = await this.postBookToDatabase();
-        console.log("deleted book")
+        console.log(postToDbPromise)
       })();
 
       this.book = "";
@@ -200,11 +200,13 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
     }
 
     var payload = { 
-      userId: this.userId,
+      userId: this.userID,
       listType: 'books',
       bookName: this.bookTitle,
       bookAuthor: this.bookAuthor
     }
+
+    console.log(payload)
     
     return this.http.post<any>('http://localhost:5000/add_book', JSON.stringify(payload), httpOptions).toPromise();
   }
