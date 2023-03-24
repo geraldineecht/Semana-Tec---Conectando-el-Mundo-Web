@@ -1,5 +1,4 @@
 # API - Les Power Rangers Divinas
-
 from flask import Flask, request, jsonify, Response
 from flask_cors import CORS, cross_origin
 from bson import json_util, ObjectId
@@ -337,15 +336,17 @@ def get_friend_books_recommendations():
 
     return {"friendRecommendations": friendRecommendations}
 
-# Ej. http://localhost:3000/movies/641b97ad0df3d227f1daeb5e
+# Ex. http://localhost:3000/movies/641b97ad0df3d227f1daeb5e
 @app.route('/movies/<id>', methods = ['GET'])
 @cross_origin()
 def get_all_movies(id):
+    """Gets all movies from a user"""
     try: 
         query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "movies"}, {'lists': {'$elemMatch': {"type":"movies"}}, '_id':0})
         movies = query['lists'][0]['idsCollection']
         moviesIds = []
 
+        # Get movies
         for movie in movies:
             response = {
                 "movieTitle": movie["movieTitle"],
@@ -361,11 +362,13 @@ def get_all_movies(id):
 
 @app.route('/songs/<id>', methods = ['GET'])
 def get_all_songs(id):
+    """Gets all songs from a user"""
     try: 
         query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "songs"}, {'lists': {'$elemMatch': {"type":"songs"}}, '_id':0})
         songs = query['lists'][0]['idsCollection']
         songsIds = []
 
+        # Get songs
         for song in songs:
             response = {
                 "songId": song["id"],
@@ -380,11 +383,13 @@ def get_all_songs(id):
 
 @app.route('/books/<id>', methods = ['GET'])
 def get_all_books(id):
+    """Gets all books from a user"""
     try: 
         query = db.Users.find_one({"_id": ObjectId(id), "lists.type": "books"}, {'lists': {'$elemMatch': {"type":"books"}}, '_id':0})
         books = query['lists'][0]['idsCollection']
         booksIds = []
 
+        # Get books
         for book in books:
             response = {
                 "bookName": book["bookName"],
@@ -398,6 +403,117 @@ def get_all_books(id):
         print(e)
         return not_found()
 
+
+"""
+Ex.
+http://localhost:3000/deleteBook
+
+{
+    "userId" : "641cbda9f22967131be59fd8",
+    "bookName" : "the flying whale",
+    "bookAuthor": "pinocchio"
+}
+"""
+@app.route('/deleteBook', methods=["POST"])
+def delete_book():
+    try:    
+        userId = request.json.get("userId")
+        if userId is None:
+            return {"data": {"success" : False, "message" : "must provide a user"}}
+
+        bookName = request.json.get("bookName")
+        if bookName is None:
+            return {"data": {"success" : False, "message" : "must specify which book to delete"}}
+        
+        bookAuthor = request.json.get("bookAuthor")
+        if bookAuthor is None:
+            return {"data": {"success" : False, "message" : "must specify the author of the book to delete"}}
+
+        collection = db['Users']
+        mongoFilter = {'_id': ObjectId(userId), "lists.type": "books"}
+
+        collection.update_one(mongoFilter,
+            {"$pull":
+                {"lists.$.idsCollection": {"bookName": bookName, "bookAuthor": bookAuthor}}
+            })
+        return {"data": { "success" : True}}
+    
+    except Exception as e:
+        print(e)
+        return not_found()
+
+
+"""
+Ex.
+http://localhost:3000/deleteSong
+
+{
+    "userId" : "641cbda9f22967131be59fd8",
+    "id" : 71865413
+}
+"""
+@app.route('/deleteSong', methods=["POST"])
+def delete_song():
+    try:    
+        userId = request.json.get("userId")
+        if userId is None:
+            return {"data": {"success" : False, "message" : "must provide a user"}}
+
+        idSong = request.json.get("id")
+        if idSong is None:
+            return {"data": {"success" : False, "message" : "must specify which song to delete"}}
+        
+        collection = db['Users']
+        mongoFilter = {'_id': ObjectId(userId), "lists.type": "songs"}
+
+        collection.update_one(mongoFilter,
+            {"$pull":
+                {"lists.$.idsCollection": {"id": idSong}}
+            })
+        return {"data": { "success" : True}}
+    
+    except Exception as e:
+        print(e)
+        return not_found()
+
+"""
+Ex.
+http://localhost:3000/deleteMovie
+
+{
+    "userId" : "641cbda9f22967131be59fd8",
+    "movieTitle": "Interstellar",
+    "movieYear": "2014"
+}
+"""
+@app.route('/deleteMovie', methods=["POST"])
+def delete_movie():
+    try:    
+        userId = request.json.get("userId")
+        if userId is None:
+            return {"data": {"success" : False, "message" : "must provide a user"}}
+
+        movieTitle = request.json.get("movieTitle")
+        if movieTitle is None:
+            return {"data": {"success" : False, "message" : "must specify which movieTitle to delete"}}
+        
+        movieYear = request.json.get("movieYear")
+        if movieYear is None:
+            return {"data": {"success" : False, "message" : "must specify which movieYear to delete"}}
+        
+        collection = db['Users']
+        mongoFilter = {'_id': ObjectId(userId), "lists.type": "movies"}
+
+        collection.update_one(mongoFilter,
+            {"$pull":
+                {"lists.$.idsCollection": {"movieTitle": movieTitle, "movieYear": movieYear}}
+            })
+        return {"data": { "success" : True}}
+    
+    except Exception as e:
+        print(e)
+        return not_found()
+
 @app.errorhandler(404)
 def not_found(error=None):
     response = jsonify({
@@ -406,7 +522,6 @@ def not_found(error=None):
     })
     response.status_code = 404
     return response
-
 
 if __name__ == '__main__':
     app.run(debug = True, port = 3000)
