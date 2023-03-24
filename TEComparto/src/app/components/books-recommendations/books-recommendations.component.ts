@@ -16,7 +16,11 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
   book = "";
   bookTitle = "";
   bookAuthor = "";
-  userId = "641c72934016bace838a783b";
+  booksRecs:Array<any> = [];
+  books:Array<Array<string>> = [];
+  bookCover = "";
+  userID = "641b97ad0df3d227f1daeb5e"
+
 
   @Input('items')
   items: any[] = [];
@@ -52,11 +56,31 @@ export class BooksRecommendationsComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
 
-    console.log(this.dots)
+      (async() => {
+        let promise = await this.get_all_recommendations();
+        this.booksRecs = promise.friendRecommendations;
+        console.log(this.booksRecs);
+
+        for(let i = 0; i < this.booksRecs.length; i++)
+        {
+          const headers = { 'X-RapidAPI-Key': 'f31652ae38msh9a6eed1277e8086p159943jsn312a70396978', 'X-RapidAPI-Host': 'book-finder1.p.rapidapi.com' }
+          this.http.get<any>('https://book-finder1.p.rapidapi.com/api/search?title=' + this.booksRecs[i].bookTitle, { headers }).subscribe(data => {
+          this.totalAngularPackages = data.total;
+          console.log(data);
+          this.bookCover = data.results[0].published_works[0].cover_art_url;
+          this.books.push([this.bookCover, this.booksRecs[i].bookTitle, this.booksRecs[i].friendName]);
+          })
+        }
+      })();
+    }
+
+  async get_all_recommendations() : Promise<any>
+  {
+    return this.http.get<any>('http://localhost:5000/get_friend_books_recommendations?userId=' + this.userID).toPromise()
   }
 
   getItems() {
-    return this.items;
+    return this.books;
   }
 
   ngAfterViewInit(): void {

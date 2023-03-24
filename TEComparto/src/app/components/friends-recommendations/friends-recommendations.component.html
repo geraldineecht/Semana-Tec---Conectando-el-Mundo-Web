@@ -45,15 +45,11 @@
             <div #slider class="flex transition-all duration-300 space-x-4" [style.width.px]="this.sliderWidth" [style.marginLeft.px]="this.sliderMarginLeft">
                 <div *ngFor="let song of this.getItems()">
                     <div class= " w-fit max-w-sm  bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-                        <a href="#">
-                            <img class="p-4 rounded-t-lg" src={{song.imagePath}} alt="song image" />
-                        </a>
+                        <img class="p-4 rounded-t-lg" src={{song[0]}} alt="song image" />
                         <div class="px-4 pb-5">
-                            <a href="#">
-                                <p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">{{song.title}}</p>
-                            </a>
+                            <p class="text-lg font-semibold tracking-tight text-gray-900 dark:text-white">{{song[1]}}</p>
                             <div class="flex items-center justify-between">
-                                <span class="text-lg font-bold text-gray-900 dark:text-white">{{song.id}}</span>
+                                <span class="text-lg text-gray-900 dark:text-white">{{song[2]}}</span>
                             </div>
                         </div>
                     </div>
